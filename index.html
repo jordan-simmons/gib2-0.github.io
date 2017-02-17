@@ -1,210 +1,183 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-	<meta charset="utf-8">
-	<title>Home</title>
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-</head>
-<body>
-	<header>
-		<div id="top">
-			<h1>Jordan Simmons</h1>
-			<img src="img/me.jpg">
-		</div>
-	</header>
-	<section>
-			<div id="about" class="content">
-				<h3>About</h3>
-				<p>I'm currently working with HTML, CSS, JavaScript, and Java. My goal for the end of this year is to be able to design major websites, web applications, and software.</p>
-
-			</div>
-			<div class="content L by sec">
-				<h3>Web designer</h3>
-				<p>A few years back I thought I had it in me to learn how to code websites, so I took some time to learn a few HTML tags and some in-line styles, and as a result the website looked pretty awful, but since that time I have pushed myself and crawled miles for this skill.</p>
-			</div>
-			<div class="content R by sec">
-				<h3>Game dev</h3>
-				<p>In recent months I've been studying games and what makes them tick. I've always wanted to design my own game, which is another thing that kept me in this field. I've made some of those basic "hello world" type games (Snake game, simple platformer, etc.), but I'm not satisfied with what I'm capable of now, so I've been pushing myself to learn C++ and Java as well as JavaScript for browser based games.</p>
-			</div>
-		<div class="content clear sec">
-			<h3>Contact</h3>
-			<p>I'm available for any work regarding the aforementioned fields.</p>
-			<ul>
-				<li>My <a href="mailto:almstoosiris@gmail.com">social email</a></li>
-				<li>Business <a href="mailto:jordan.simmons@bartlettpanthers.org">email</a></li>
-			</ul>
-		</div>
-		<div class="clear2"></div>
-		<div id="gal" class="content">
-			<h3>Gallery</h3>
-			<div id="gallery">
-				<div class="slide">
-					<img src="img/logo.png">
-					<p>A group project done by me and two other collaborators, it can be found <a href="https://jordan-simmons.github.io/lava-java/">here</a>.</p>
-				</div>
-
-			</div>
-		</div>
-	</section>
-	<footer>
-		<p>&copy; Jordan Simmons 2017</p>
-	</footer>
-</body>
-</html>
--->
-
 <!DOCTYPE html>
 <html>
 <head>
-	<link href='http://fonts.googleapis.com/css?family=Noto+Serif' rel='stylesheet' type='text/css'>
-	<title>jordan o:</title>
-	<script src="http://s.codepen.io/assets/libs/modernizr.js" type="text/javascript"></script>
+	<meta charset="utf-8">
+	<title>thing</title>
+	<style type="text/css">
+		.hidden{
+			color: white;
+		}
+	</style>
 </head>
-<body>
-<header>
-  <h1>under maintenance </h1>
-  <h2></h2>
-</header>
-<div id="container">
-  <canvas id="canvas" width="1000" height="550"></canvas>
-</div>
+<body onload="genWords(25, 10);">
+<button id="gW">Generate</button>
+<button id="clear">clear</button>
+<p id="ArrayOutput"></p>
+<p id="output"></p>
+
 <script type="text/javascript">
-var no = 50;
-var speed = 1;
-var ns4up = (document.layers) ? 1 : 0;
-var ie4up = (document.all) ? 1 : 0;
-var s, x, y, sn, cs;
-var a, r, cx, cy;
-var i, doc_width = 800, doc_height = 600;
+	var gW = document.getElementById('gW');
+	var input = document.getElementById('input');
+	var output = document.getElementById('output');
+	var clear = document.getElementById('clear');
+	gW.addEventListener("click", run, false);
+	clear.addEventListener("click", clrA, false);
+	var Lwords, Swords;
 
-if (ns4up) {
-doc_width = self.innerWidth;
-doc_height = self.innerHeight;
-}
-else
+	function run(){
+		output.innerHTML = Lwords + '<br><br>' + Swords + '<hr>'+ sentence(19);
+	}
 
-if (ie4up) {
-doc_width = document.body.clientWidth;
-doc_height = document.body.clientHeight;
-}
+	function clrA(){
+		temp = '';
+		output.innerHTML = ' ';
+		Lwords = [];
+		Swords = [];
+		genWords(25, 10);	
+	}
 
-x = new Array();
-y = new Array();
-r = new Array();
-cx = new Array();
-cy = new Array();
-s = 8;
+	function randomInt(a, b){
+		return Math.floor(a + (1+b-a)*Math.random());
+	}	
 
-for (i = 0; i < no; ++ i) { 
-initRain();
+	function genWords(a, b){
+		Lwords = [];
+		Swords = [];
+		for(var i = 0; i < a; i++){
+			Lwords.push(/*'<span class="hidden">'+*/word(2, 4)/*+'</span>'*/);
+		}
+		for(var i = 0; i < b; i++){
+			Swords.push(/*'<strong>' + */word(1,2)/* + '</strong>'*/);
+		}
+	}
 
-if (ns4up) {
+	var temp = '';
 
-if (i == 0) {
-document.write("<layer name=\"dot"+ i +"\" left=\"1\" ");
-document.write("top=\"1\" visibility=\"show\"><font color=\"blue\">");
-document.write(",</font></layer>");
+	function sentence(a){
+		
+		var amount = randomInt(a, 3);
+		for(var i = 0; i < amount; i++){
+			if(Math.random() < .5){
+				temp += Lwords[Math.floor(Math.random() * Lwords.length)];
+			}else{
+				temp += Swords[Math.floor(Math.random() * Swords.length)];
+			}
+		}
+		return temp;
+	}
 
-}
-else {
-document.write("<layer name=\"dot"+ i +"\" left=\"1\" ");
-document.write("top=\"1\" visibility=\"show\"><font color=\"blue\">");
-document.write(",</font></layer>");
-}
-}
-else 
+	function word(a, b){
+		var tw = '';
+		var amount = randomInt(a, b);
+		for(var i = 0; i < amount; i++){
+			tw += randomC() + randomV();
+		}
+		if(Math.random() > 0.5){
+				tw += randomC();
+			}else{
+				tw += randomV();
+			}
+		tw += ' ';
+		return tw;
 
-if (ie4up) {
+	}
 
-if (i == 0) {
-document.write("<div id=\"dot"+ i +"\" style=\"POSITION: ");
-document.write("absolute; Z-INDEX: "+ i +"; VISIBILITY: ");
-document.write("visible; TOP: 15px; LEFT: 15px;\"><font color=\"blue\">");
-document.write(",</font></div>");
-}
+	function randomC(){
+		var c = Math.random() * 12.6;
+		
+		if(c >= 0 && c <= 0.7){
+			return '&#439;';
+		}else if (c > 0.7 && c <= 1) {
+			return '&#952;';
+		}else if (c > 1 && c <= 1.2) {
+			return 'g';
+		}else if(c >1.2 && c <= 1.3){
+			return '&#643;';
+		}else if(c > 1.3 && c <= 1.9){
+			return 'p';
+		}else if(c > 1.9 && c <= 2.2){
+			return '&#414;';
+		}else if(c > 2.2 && c <= 2.3){
+			return 'h';
+		}else if(c > 2.3 && c <= 2.6){
+			return'j';
+		}else if(c > 2.6 && c <= 3){
+			return 'f';
+		}else if(c > 3 && c <= 3.2){
+			if(Math.random() < 0.49){
+				return 'v';
+			}else{
+				return'b';
+			}
+		}else if(c > 3.2 && c <= 4){
+			return 'w';
+		}else if(c > 4 && c <= 4.1){
+			return 'k';
+		}else if(c > 4.1 && c <= 4.3){
+			return 'z';
+		}else if(c > 4.3 && c <= 5.1){
+			return '&eth;';
+		}else if(c > 5.1 && c <= 6.3){
+			return 'm';
+		}else if(c > 6.3 && c <= 6.5){
+			return 'r';
+		}else if(c > 6.5 && c <= 7){
+			return 'l';
+		}else if(c > 7 && c <= 7.6){
+			return 's';
+		}else if(c > 7.6 && c <= 9){
+			return 'd';
+		}else if(c > 9 && c <= 11.1){
+			return 't';
+		}else if(c > 11.1 && c <= 12.5){
+			return 'n';
+		}else{
+			return 'n';
+		}
+	}
 
-else {
-document.write("<div id=\"dot"+ i +"\" style=\"POSITION: ");
-document.write("absolute; Z-INDEX: "+ i +"; VISIBILITY: ");
-document.write("visible; TOP: 15px; LEFT: 15px;\"><font color=\"blue\">");
-document.write(",</font></div>");
-}
-}
-}
+	function randomV(){
+		var a = Math.random() * 20.2;
 
-function initRain() {
-a = 6;
-r[i] = 1;
-sn = Math.sin(a);
-cs = Math.cos(a);
-cx[i] = Math.random() * doc_width + 1;
-cy[i] = Math.random() * doc_height + 1;
-x[i] = r[i] * sn + cx[i];
-y[i] = cy[i];
-}
+		if(a >= 0 && a < 0.2){
+			return 'o';
+		}else if(a > 0.2 && a <= 0.8){
+			return '&#604;';
+		}else if(a > 0.8 && a <= 1.4){
+			return '&#593;';
+		}else if(a > 1.4 && a <= 2.7){
+			return '&#596;';
+		}else if(a > 2.7 && a <= 2.8){
+			return '&#594;';
+		}else if(a > 2.8 && a <= 4){
+			if(Math.random() > .49){
+				return 'u';
+			}else{
+				return '&#652;';
+			}
+		}else if(a > 4 && a <= 4.1){
+			return '&#230;';
+		}else if(a > 4.1 && a <= 5.4){
+			return 'i';
+		}else if(a > 5.4 && a <= 5.8){
+			return '&#937;';
+		}else if(a > 5.8 && a <= 7.8){
+			return 'e';
+		}else if(a > 7.8 && a <= 8.6){
+			return 'a';
+		}else if(a > 8.6 && a <= 12.6){
+			return 'a';
+		}else if(a > 12.6 && a <= 19.4){
+			return '&#601;';	
+		}else if(a > 19.4){
+			return '&#618;';
+		}else{
+			return 'e';
+		}
+	}
 
-function makeRain() {
-r[i] = 1;
-cx[i] = Math.random() * doc_width + 1;
-cy[i] = 1;
-x[i] = r[i] * sn + cx[i];
-y[i] = r[i] * cs + cy[i];
-}
 
-function updateRain() {
-r[i] += s;
-x[i] = r[i] * sn + cx[i];
-y[i] = r[i] * cs + cy[i];
-}
-
-function raindropNS() {
-for (i = 0; i < no; ++ i) {
-
-updateRain();
-
-if ((x[i] <= 1) || (x[i] >= (doc_width - 20)) || (y[i] >= (doc_height - 20))) {
-makeRain();
-doc_width = self.innerWidth;
-doc_height = self.innerHeight;
-}
-
-document.layers["dot"+i].top = y[i];
-document.layers["dot"+i].left = x[i];
-
-}
-
-setTimeout("raindropNS()", speed);
-
-}
-
-function raindropIE() {
-
-for (i = 0; i < no; ++ i) {
-updateRain();
-
-if ((x[i] <= 1) || (x[i] >= (doc_width - 20)) || (y[i] >= (doc_height - 20))) {
-makeRain();
-doc_width = document.body.clientWidth;
-doc_height = document.body.clientHeight;
-}
-
-document.all["dot"+i].style.pixelTop = y[i];
-document.all["dot"+i].style.pixelLeft = x[i];
-
-}
-
-setTimeout("raindropIE()", speed);
-
-}
-
-if (ns4up) {
-raindropNS();
-}
-
-else
-if (ie4up) {
-raindropIE();
-}
 </script>
+
 </body>
 </html>
