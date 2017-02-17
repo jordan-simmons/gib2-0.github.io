@@ -7,30 +7,109 @@
 		.hidden{
 			color: white;
 		}
+
+
+		#op{
+			width: 67%;
+			margin: auto;
+			overflow: auto;
+		}
+
+		#arrO{
+			float: left;
+			width: 45%;
+			/*margin: 1% 1.5% 0 0;*/
+			margin: 1%;
+			padding: 1.5%;
+			background-color: #b2b2b2;
+			border-radius: 3px 0 0 3px;
+			max-height: 310px;
+			color: #4e4e4e;
+			overflow: auto;
+		}
+
+		#oO{
+			float: right;
+			width: 45%;
+			/*margin-right: 1% 0 0 1.5%;*/
+			margin: 1%;
+			padding: 1.5%;
+			max-height: 310px;
+			overflow: scroll;
+			background-color: #535353;
+			border-radius:  0 3px 3px 0;
+			color: #dedede;
+		}
+
+		.clear{
+			clear: both;
+		}
+
+		.cen{
+			text-align: center;
+		}
+
+		#exp{
+			width: 67%;
+			margin: auto;
+			color: #2a2a2a;
+		}
+
+		#ct{
+			visibility: none;
+		}
+
 	</style>
 </head>
 <body onload="genWords(25, 10);">
-<button id="gW">Generate</button>
-<button id="clear">clear</button>
-<p id="ArrayOutput"></p>
-<p id="output"></p>
+
+<div id="exp">
+	<h1 class="cen">GIB2.0</h1>
+	<p class="cen">basically a random text generator</p>
+	<p>A text generator that generates words based on frequencies of natural language. this was merely a proof of concept and a simple project</p>
+</div>
+<div id="op">
+	<button id="gW">Generate</button>
+	<button id="clear">clear</button>
+	<div class="clear"></div>
+	<div id="ct">
+		<div id="arrO">
+			<h3>words generated:</h3>
+			<p id="ArrOutput"></p>
+		</div>
+		<div id="oO">
+			<h3>sentences generated:</h3>
+			<p id="output"></p>
+		</div>
+	</div>
+</div>
 
 <script type="text/javascript">
 	var gW = document.getElementById('gW');
 	var input = document.getElementById('input');
 	var output = document.getElementById('output');
+	var aOutput = document.getElementById('ArrOutput');
 	var clear = document.getElementById('clear');
+	var result = document.getElementById('ct');
 	gW.addEventListener("click", run, false);
 	clear.addEventListener("click", clrA, false);
 	var Lwords, Swords;
+	var ranOnce = false;
 
+	if(ranOnce){
+		result.style.visibility = 'hidden';
+	}else{
+		result.style.visibility = 'visible';
+	}
 	function run(){
-		output.innerHTML = Lwords + '<br><br>' + Swords + '<hr>'+ sentence(19);
+		output.innerHTML = sentence(19);
+		aOutput.innerHTML = displayArray(Lwords) + '<br><br>' + displayArray(Swords);
 	}
 
 	function clrA(){
 		temp = '';
 		output.innerHTML = ' ';
+		aOutput.innerHTML = ' ';
 		Lwords = [];
 		Swords = [];
 		genWords(25, 10);	
@@ -44,11 +123,23 @@
 		Lwords = [];
 		Swords = [];
 		for(var i = 0; i < a; i++){
-			Lwords.push(/*'<span class="hidden">'+*/word(2, 4)/*+'</span>'*/);
+			Lwords.push(/*'<span class="hidden">'+*/word(3, 6)/*+'</span>'*/);
 		}
 		for(var i = 0; i < b; i++){
 			Swords.push(/*'<strong>' + */word(1,2)/* + '</strong>'*/);
 		}
+	}
+
+	function displayArray(arr){
+		var tmp = '';
+		for(var i = 0; i < arr.length; i++){
+			if(i == arr.length - 1){
+				tmp += arr[i];
+			}else{
+				tmp += arr[i] + ', ';
+			}
+		}
+		return tmp;
 	}
 
 	var temp = '';
@@ -58,11 +149,12 @@
 		var amount = randomInt(a, 3);
 		for(var i = 0; i < amount; i++){
 			if(Math.random() < .5){
-				temp += Lwords[Math.floor(Math.random() * Lwords.length)];
+				temp += Lwords[Math.floor(Math.random() * Lwords.length)] + ' ';
 			}else{
-				temp += Swords[Math.floor(Math.random() * Swords.length)];
+				temp += Swords[Math.floor(Math.random() * Swords.length)] + ' ';
 			}
 		}
+		temp += '. ';
 		return temp;
 	}
 
@@ -72,12 +164,12 @@
 		for(var i = 0; i < amount; i++){
 			tw += randomC() + randomV();
 		}
-		if(Math.random() > 0.5){
+		if(Math.random() > 1){
 				tw += randomC();
 			}else{
 				tw += randomV();
 			}
-		tw += ' ';
+		//tw += ' ';
 		return tw;
 
 	}
